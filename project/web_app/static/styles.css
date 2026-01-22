@@ -1,0 +1,156 @@
+/* Background colour - soft blue sky gradient suggested by ChatGPT */
+body {
+  background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+}
+
+/* Class selector */
+.title {
+    font-size: 20pt;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-weight: bold;
+    border-color: #fc8403; /* orange */
+    border-style: solid;
+}
+
+.subheader {
+    font-size: 16pt;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-weight: bold;
+    background: #f7f0e9
+}
+
+.medium {
+    font-size: 14pt;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.small {
+    font-size: 12pt;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.very-small {
+    font-size: 11pt;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.variable {
+    font-size: 12pt;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.prediction {
+    font-size: 13pt;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.accordion-head {
+    font-size: 14pt;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    justify-content: center;     /* Center horizontally */
+    align-items: center;         /* Center vertically */
+}
+
+/* Adapted from: https://www.w3schools.com/howto/howto_js_rangeslider.asp */
+.slidecontainer {
+  width: 50%; /* Width of the outside container */
+}
+
+/* The slider itself, (i.e., the bar) */
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 40%;
+  height: 15px; /* Specified height */
+  border-radius: 5px; /* Creates a round slider header */
+  background: #dfdfdf; /* Light grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  border-radius: 50%; /* Creates a round slider header */
+  background: #2eb0db; /* Light blue background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #2eb0db /* Light blue background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+/* ID selector */
+#music-photo
+{
+    display: block; /* convert the <img> element (an inline element) to block element (compulsory) before centering */
+    margin: auto; /* centers the image horizontally */
+    width: 300px; /* resize image */
+    height: auto;
+}
+
+
+/* Obtained help from ChatGPT for the following */
+
+/* Accordion body colour when open */
+.accordion-body {
+  background-color: #ffffff;  /* White */
+  color: black;
+}
+
+/* Accordion colour when open */
+.accordion-button:not(.collapsed) {
+  background-color: #eff3fc; /* Very light blue */
+  color: black;
+}
+
+/* Accordion colour when closed */
+.accordion-button.collapsed {
+  background-color: #e0f7fa; /* Light blue (same as background) */
+  color: #000;
+}
+
+.accordion-button {
+  transition: background-color 0.3s ease, color 0.3s ease;    /* Animating the colour change when accordion opens and closes */
+  text-align: center;
+}
+
+/* Container to center the "predict" button */
+.button-container {
+  display: flex;               /* Enable flexbox */
+  justify-content: center;     /* Center horizontally */
+  align-items: center;         /* Center vertically */
+}
+
+/* Center all form inputs and selects inside slidecontainer */
+.slidecontainer {
+  display: flex;               /* Enable flex layout */
+  flex-direction: column;      /* Stack elements vertically */
+  align-items: center;         /* Center horizontally */
+  width: 100%;                 /* Optional, keeps full width */
+}
+
+/* Center every input field in the webpage */
+input {
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+}

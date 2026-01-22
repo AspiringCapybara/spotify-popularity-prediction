@@ -1,0 +1,326 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <br>
+    <header class="title">
+        <h1>Spotify Streams Predictor</h1>
+    </header>
+    <br>
+    <img id="music-photo" alt="Photo of musical notes flying in a golden sky" src=static/music.png>
+    <hr>
+
+    <body>
+        <!-- Bootstrap Accordion starts -->
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item custom-accordion-1">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        <span class="accordion-head">
+                            <strong>Introduction</strong>
+                        </span>
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                        <p class="small">
+                            Hi! This is a web app that predicts the number of streams that a song will get on Spotify, based on the song's various metadata (including some of its audio characteristics). The predictor uses a trained machine learning (random forest regression) model.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item custom-accordion-1">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                        <span class="accordion-head">
+                            <strong>How to use this app?</strong>
+                        </span>
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                    <div class="accordion-body">
+                        <p class="small">
+                            Under "Form", enter appropriate values for each metadata. Then, click on the "Predict" button to submit the values.
+                            <br>
+                            <br>
+                            <em>(Note: The values allowed to be entered are restricted based on the data used to train the machine learning model that makes the prediction. This ensures that the predicted number of streams shown is reliable.)</em>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap Accordion ends -->
+
+        <hr>
+        <br>
+
+        <p class="title">
+            Form
+        </p>
+        <hr>
+        <br>
+
+        <form method="post">
+            <p class="subheader">
+                Non-audio Metadata
+            </p>
+            <br>
+
+        <!-- Adapted code from Jinja documentation (https://jinja.palletsprojects.com/en/stable/templates/#template-inheritance) and
+            range slider tutorial https://www.w3schools.com/tags/tag_span.asp -->
+
+            <div class="slidecontainer">
+                {% import 'rangeslider_js.html' as repeated_js %} <!-- Import macro from rangeslider_js.html -->
+
+                <!-- Slider input -->
+                <!-- Min and max values are based on training data for random forest model -->
+                <input type="range" min="31" max="52898" value="26434" class="slider" id="num_playlistsrange" name="num_playlists">
+                <p class="variable">
+                    <!-- Repeated JavaScript code that makes the range slider dynamic (showing live value)-->
+                    {{ repeated_js.repeat_js(output_id="num_playlistsoutput", slider_id="num_playlistsrange") }}
+
+                    <!-- Display slider output, which is the current slider value -->
+                    <strong>Number of Spotify playlists that the song is in:</strong> <span id="num_playlistsoutput">26434</span>
+                </p>
+            </div>
+
+            <hr>
+            <br>
+
+            <div>
+                <p class="variable"><strong>Release Year of Song:</strong></p>
+                <input type="number" autocomplete="off" placeholder="Enter year" name="year" required>
+
+                <p class="variable">
+                    <em>(Note: Release year of song must be between 1930 and the current year.)</em>
+                </p>
+            </div>
+
+            <br>
+            <hr>
+            <br>
+
+            <div class="variable">
+                <!-- Drop-down list for selecting month -->
+                <!-- Adapted code from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_elem_select -->
+                <label for="month"><strong>Release Month of Song:</strong></label>
+                <br>
+                <br>
+                <select id="month" name="month">
+                    <option value=1>Jan</option>
+                    <option value=2>Feb</option>
+                    <option value=3>Mar</option>
+                    <option value=4>Apr</option>
+                    <option value=5>May</option>
+                    <option value=6>Jun</option>
+                    <option value=7>Jul</option>
+                    <option value=8>Aug</option>
+                    <option value=9>Sep</option>
+                    <option value=10>Oct</option>
+                    <option value=11>Nov</option>
+                    <option value=12>Dec</option>
+                </select>
+                <br>
+            </div>
+
+            <br>
+            <hr>
+            <br>
+
+            <p class="subheader">
+                Audio Characteristics
+            </p>
+            <br>
+
+            <!-- Bootstrap Accordion starts -->
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item custom-accordion-1">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                            <span class="accordion-head">
+                                <strong>Click here to understand what the audio characteristics mean.</strong>
+                            </span>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+                            <table class="table table-striped" id="tablecolour">
+                            <!-- Content is adapted from https://help.spotontrack.com/article/what-do-the-audio-features-mean, unless otherwise specified -->
+                                <thead class="small">
+                                    <tr>
+                                        <th>Audio Characteristic</th>
+                                        <th>Meaning</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="very-small">
+                                        <tr>
+                                            <td><strong>Acousticness</strong></td>
+                                            <td>A confidence measure from 0 to 100 of whether the track is acoustic (i.e., not having electrical amplification). 100 represents high confidence the track is acoustic.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Danceability</strong></td>
+                                            <td>Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0 is least danceable and 100 is most danceable.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Energy</strong></td>
+                                            <td>Energy is a measure from 0 to 100 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Key</strong></td>
+                                        <!-- Extracted from https://www.musicpandit.com/resources/articles/key/#:~:text=In%20music%2C%20the%20key%20of,bright%2C%20happy%2C%20or%20uplifting. -->
+                                            <td>In music, the key of a piece defines the group of pitches, or scale, that forms the foundation of a composition. Simply put, it tells us which notes are likely to appear in a piece and which note feels like “home” — a tonal center or tonic. For instance, if a song is said to be in the key of C major, it is built using the notes of the C major scale, and the note C acts as the tonal anchor.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Mode</strong></td>
+                                        <!-- Adapted from https://www.musicpandit.com/resources/articles/key/#:~:text=In%20music%2C%20the%20key%20of,bright%2C%20happy%2C%20or%20uplifting. -->
+                                            <td>Every key can be classified as either major or minor. Major keys typically sound bright, happy, or uplifting. Minor keys often sound sad, emotional, or dramatic.</td>
+                                        </tr>
+                                        <tr>
+                                        <tr>
+                                            <td><strong>Liveness</strong></td>
+                                            <td>Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 80 provides strong likelihood that the track is live.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Speechiness</strong></td>
+                                            <td>Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 100 the attribute value. Values above 66 describe tracks that are probably made entirely of spoken words. Values between 33 and 66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 33 most likely represent music and other non-speech-like tracks.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Tempo</strong></td>
+                                            <td>The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Valence</strong></td>
+                                            <td>A measure from 0 to 100 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).</td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Bootstrap accordion ends -->
+
+            <hr>
+
+            <div class="slidecontainer">
+                <!-- Drop-down list for selecting mode -->
+                <label for="mode" class="variable"><strong>Mode:</strong></label>
+                <br>
+                <select id="mode" name="mode" class="variable">
+                    <option value="Major">Major</option>
+                    <option value="Minor">Minor</option>
+                </select>
+                <br>
+            </div>
+
+            <hr>
+
+            <div class="slidecontainer">
+                <!-- Drop-down list for selecting key -->
+                <label for="key" class="variable"><strong>Key:</strong></label>
+                <br>
+                <select id="key" name="key" class="variable">
+                    <option value="A#">A#</option>
+                    <option value="B">B</option>
+                    <option value="C#">C#</option>
+                    <option value="D">D</option>
+                    <option value="D#">D#</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                    <option value="G#">G#</option>
+                </select>
+                <br>
+            </div>
+
+            <hr>
+
+            <div class="slidecontainer">
+                <!-- Slider input -->
+                <!-- Min and max values of predictor variables are based on training data for random forest model -->
+                <input type="range" min="65" max="206" value="136" class="slider" id="BPMrange" name="bpm">
+                <p class="variable">
+                    <!-- Repeated JavaScript code that makes the range slider dynamic (showing live value)-->
+                    {{ repeated_js.repeat_js(output_id="BPMoutput", slider_id="BPMrange") }}
+
+                    <!-- Display slider output, which is the current slider value -->
+                    <strong>Tempo (BPM):</strong> <span id="BPMoutput">136</span>
+                </p>
+            </div>
+
+            <hr>
+
+            <div class="slidecontainer">
+                <input type="range" min="14" max="97" value="55" class="slider" id="energyrange" name="energy">
+                <p class="variable">
+                    {{ repeated_js.repeat_js(output_id="energyoutput", slider_id="energyrange") }}
+                    <strong>Energy (%):</strong> <span id="energyoutput">55</span>
+                </p>
+            </div>
+
+            <hr>
+
+            <div class="slidecontainer">
+                <input type="range" min="23" max="96" value="60" class="slider" id="dancerange" name="danceability">
+                <p class="variable">
+                    {{ repeated_js.repeat_js(output_id="danceoutput", slider_id="dancerange") }}
+                    <strong>Danceability (%):</strong> <span id="danceoutput">60</span>
+                </p>
+            </div>
+
+            <hr>
+
+            <div class="slidecontainer">
+                <input type="range" min="4" max="97" value="51" class="slider" id="valencerange" name="valence">
+                <p class="variable">
+                    {{ repeated_js.repeat_js(output_id="valenceoutput", slider_id="valencerange") }}
+                    <strong>Valence (%):</strong> <span id="valenceoutput">51</span>
+                </p>
+            </div>
+
+            <hr>
+
+            <div class="slidecontainer">
+                <input type="range" min="0" max="97" value="49" class="slider" id="acourange" name="acousticness">
+                <p class="variable">
+                    {{ repeated_js.repeat_js(output_id="acououtput", slider_id="acourange") }}
+                    <strong>Acousticness (%):</strong> <span id="acououtput">49</span>
+                </p>
+            </div>
+
+            <hr>
+
+            <div class="slidecontainer">
+                <input type="range" min="3" max="97" value="50" class="slider" id="liverange" name="liveness">
+                <p class="variable">
+                    {{ repeated_js.repeat_js(output_id="liveoutput", slider_id="liverange") }}
+                    <strong>Liveness (%):</strong> <span id="liveoutput">50</span>
+                </p>
+            </div>
+
+            <hr>
+
+            <div class="slidecontainer">
+                <input type="range" min="2" max="64" value="33" class="slider" id="speechrange" name="speechiness">
+                <p class="variable">
+                    {{ repeated_js.repeat_js(output_id="speechoutput", slider_id="speechrange") }}
+                    <strong>Speechiness (%):</strong> <span id="speechoutput">33</span>
+                </p>
+            </div>
+
+            <hr>
+
+            <div class="button-container">
+                <button type="submit" class="btn btn-info">
+                    <span class="variable">Predict</span> <!-- Suggestion from ChatGPT to use inline element rather than block element in buttons -->
+                </button> <!-- Uses Bootstrap's button style from Bootstrap's documentation -->
+            </div>
+
+            <br>
+            <p class="prediction">
+                <!-- Display prediction as integer -->
+                <strong>Predicted Number of Streams: {{ streams }}</strong>
+            </p>
+        </form>
+    </body>
+
+{% endblock %}
