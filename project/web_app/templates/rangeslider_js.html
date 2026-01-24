@@ -1,28 +1,18 @@
-<!-- Adapted code from Jinja documentation (https://jinja.palletsprojects.com/en/stable/templates/#template-inheritance) and
- range slider tutorial https://www.w3schools.com/tags/tag_span.asp -->
-
-{% macro repeat_js(output_id, slider_id) %} <!-- Define macro to call it later in index.html (acts like a reusable function) -->
-
-<!-- Using JavaScript, creates a dynamic range slider that shows the current value -->
+{% macro repeat_js(output_id, slider_id) %}
 
 <script>
 
-// ChatGPT was used to debug unpredictable behaviour
+    document.addEventListener('DOMContentLoaded', function () {
+        var slider = document.getElementById("{{ slider_id }}");
+        var output = document.getElementById("{{ output_id }}");
 
-// Ensures that script runs after page is loaded so all HTML elements exist in DOM when called using document.getElementById
-document.addEventListener('DOMContentLoaded', function() {
-    var slider = document.getElementById("{{ slider_id }}");
-    var output = document.getElementById("{{ output_id }}");
-
-    if (slider && output) { // Ensures that both variables exist when this code is run
-        output.innerHTML = slider.value; // Display the default slider value immediately
-
-        // Update the current slider value live (while the slider is moved)
-        slider.oninput = function() {
-            output.innerHTML = this.value;
+        if (slider && output) {
+            output.innerHTML = slider.value;
+            slider.oninput = function () {
+                output.innerHTML = this.value;
+            }
         }
-    }
-});
+    });
 
 </script>
 
