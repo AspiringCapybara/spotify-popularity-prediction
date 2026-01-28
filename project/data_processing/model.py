@@ -3,7 +3,7 @@ import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
-from data_processing.preprocessing import df_ready
+from data_processing.data_pipeline import df_ready
 
 
 df_all_predictors = df_ready.drop(['streams', 'streams_raw'], axis=1).copy()
@@ -39,8 +39,9 @@ regressor.fit(X_train, y_train)
 
 def cross_val():
     """
-    Performing hyperparameter tuning using GridSearchCV with 5-fold cross validation.
+    Performing a one-time hyperparameter tuning using GridSearchCV with 5-fold cross validation.
     Prints best set of hyperparameters and its R2 score.
+    Not used in final training.
     """
 
     param_grid = {
