@@ -1,9 +1,11 @@
-import pandas as pd
 import pickle
+import numpy as np
+
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
-from data_processing.data_pipeline import df_ready
+from sklearn.metrics import (mean_absolute_error, mean_squared_error)
+from data_pipeline import df_ready
 
 
 df_all_predictors = df_ready.drop(['streams', 'streams_raw'], axis=1).copy()
@@ -74,4 +76,12 @@ with open('model.pickle', 'wb') as file:
 
 
 if __name__ == '__main__':
-    print(regressor.score(X_test, y_test))      # R-squared
+    y_predicted = regressor.predict(X_test)
+
+    r2 = regressor.score(X_test, y_test)
+    mae = mean_absolute_error(y_test, y_predicted)
+    rmse = np.sqrt(mean_absolute_error(y_test, y_predicted))
+
+    print(f"r2: {r2:.4f}")
+    print(f"mae: {mae:.4f}")
+    print(f"rmse: {rmse:.4f}")

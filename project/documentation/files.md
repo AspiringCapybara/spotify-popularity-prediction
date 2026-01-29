@@ -129,4 +129,4 @@ Stylesheet for `index.html` containing the CSS code that controls the appearance
 
 ---
 
-[Return to main README](README.md)
+[Return to main README](/project/README.md)

@@ -10,4 +10,4 @@ While it is still an early step in my learning journey and there is room for fur
 
 ---
 
-[Return to main README](README.md)
+[Return to main README](/project/README.md)

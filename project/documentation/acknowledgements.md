@@ -38,4 +38,4 @@ Lastly, ChatGPT was used to generate suggestions for the aesthetic (background c
 
 ---
 
-[Return to main README](README.md)
+[Return to main README](/project/README.md)

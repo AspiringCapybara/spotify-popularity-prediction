@@ -1,24 +1,61 @@
-# Predicting Spotify Song Streams using Machine Learning
-#### Video Demo: https://youtu.be/ydEIjLxPrCY
-#### Description:
+# Predicting Spotify Song Streams
 
-This is a Flask-based web application that uses supervised machine learning to estimate how many streams a song might receive on Spotify based on its metadata. Users can input details like release year and data on audio features of songs, then click "Predict" to get an instant stream count estimate.
+## Project Overview
 
-This app gives users a fast and interactive way to explore how certain song features might impact streaming performance. It would be useful for music producers, data enthusiasts, or anyone curious about trends in digital music.
+This project explores a deceptively simple question: 
 
-## 🧠 How The App Works
+<p style="text-align: center;"><strong>To what extent can a song's Spotify stream count be predicted from its metadata and audio features alone?</strong></p>
 
-- The machine learning model used is a Random Forest Regressor trained on the "Most Streamed Spotify Songs of 2023" dataset from Kaggle.
+It features a full-stack data-driven web application that estimates a song's Spotify stream count using supervised machine learning. Beyond generating predictions, this project investigates the strengths and limitations of feature-based prediction in cultural markets, where outcomes are considerably influenced by external factors that are often hard to quantify (e.g., marketing, branding, artist popularity).
 
-- The data was cleaned, explored, and preprocessed before training.
+## What Makes This Problem Interesting
 
-- Model performance was evaluated using the R<sup>2</sup> score metric and optimised (with GridSearchCV) for better accuracy.
+Spotify stream counts follow a highly-skewed distribution and are influenced by many variables that are difficult to fully capture in typical audio data sets. As such, predicting stream counts is a challenging yet realistic modelling task.
 
-- When a user submits the form, their input is preprocessed and passed to the model, which returns a predicted stream count displayed on the web interface.
+This project aims to:
 
-- After the first run, a `model.pickle` file will be created automatically in the project directory. This file stores the trained model and is used for subsequent predictions.
+<ul>
+    <li>examine how well-structured metadata can explain a song's popularity</li>
+    <li>analyse where and why predictions may fail</li>
+    <li>highlight the limitations of purely data-driven approaches in artistic fields</li>
+</ul>
 
-## ⚙️ Setup (How to Use the Project)
+The project prioritises interpretability, error analysis and honest evaluation over optimising for maximal accuracy or creating the ideal predictive model.
+
+## Project Evolution
+
+The original version of this project was built as my CS50x final project. Since then, I substantially enhanced it with deeper error analysis, improved evaluation, clearer model interpretation and containerisation (Docker) to align with production-oriented workflows.
+
+## High-Level Modelling Approach 
+
+- A Random Forest Regressor was trained on the "Most Streamed Spotify Songs of 2023" dataset from Kaggle.
+- Data were cleaned and exploratory data analysis performed.
+- Log-normalisation was performed on the target variable (stream count) to better model the heavy-tailed distribution and stabilise variance.
+- Audio features and metadata were selected, encoded and scaled through a reproducible preprocessing pipeline.
+- The model's hyperparameters were tuned using `GridSearchCV`.
+
+## Evaluation Strategy
+
+KIV - to be completed
+
+## Key Insights and Limitations
+
+KIV - to be completed
+
+## Application Architecture
+
+This project is implemented as a Flask-based web application where:
+
+<ul>
+    <li>Users input song metadata into the form on the interactive webpage.</li>
+    <li>Inputs are validated server-side and processed using the same preprocessing pipeline used during training.</li>
+    <li>The trained ML model returns a predicted Spotify stream count for the song, which is displayed on the browser.</li>
+</ul>
+
+UI elements (e.g., sliders, collapsible sections) are implemented using Bootstrap, JavaScript and Jinja2 macros to improve the application's usability.
+
+
+## ⚙️ Setup and Running the App
 
 Clone the repository by running this code in the terminal:
 
@@ -26,15 +63,6 @@ Clone the repository by running this code in the terminal:
 git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
 ```
-
-Note:
-
-In the code above:
-
-- your-username → your GitHub username
-- your-repo-name → the repository name you want to clone
-
-_Also, make sure that you have Git installed. Download Git if you don’t have it installed yet._
 
 This project uses a `requirements.txt` file to manage Python dependencies. Next, to install all the required packages, run this command in the terminal:
 ```bash
@@ -48,6 +76,8 @@ python -m flask run
 ```
 
 ## 🗃️ Full Project Structure
+
+KIV - to be updated at the end of revamping the project
 
 ```
 project/
@@ -116,73 +146,19 @@ project/
 
 ## 📂 What Each File Does
 
-[Please click here](files.md) for a brief description of what each file in the project (excluding Markdown files) does.
+[Please click here](documentation/files.md) for a brief description of what each file in the project (excluding Markdown files) does.
 
 _(Note: You don’t need to understand the code in detail to use the project. Technical notes are available for those who are curious in the [Appendices](#appendices).)_
-
-## 📈Possible Extensions / Improvements
-
-This project can be extended and/or improved in the following ways:
-
-**Enhanced Dataset**
-
-- Incorporating a larger and more diverse dataset with additional predictor variables could improve model accuracy and generalisability.
-
-**Additional Evaluation Metrics**
-
-- Beyond R<sup>2</sup>, metrics such as Mean Squared Error (MSE) and Mean Absolute Error (MAE) can provide a more comprehensive assessment of model performance.
-
-**Alternative Models**
-
-- Other machine learning models, such as XGBoost, can be trained and compared to the current Random Forest model. Evaluating multiple models using consistent metrics may help identify the best-performing approach.
-
-**API Integration**
-
-- The web app can be extended to integrate with APIs beyond Spotify, allowing users to search for a song and automatically retrieve metadata to feed into the prediction model.
-
----
-
-### 📝Concepts Applied from CS50x
-
-This project builds on several key concepts introduced in CS50x:
-
-- **Computational Thinking**
-
-Structured the project as a simple pipeline: data cleaning → processing → modeling → deployment. During the early stages of this project, (preparing the data and building the model), I broke down the problem into logical, testable components by separating the entire program into smaller files to work on them one at a time. After the model was finalised, I focused on building and testing my web app.
-
-- **Learn and Applying Unfamiliar Libraries** (by reading documentation)
-
-Referred to official documentation of various libraries to guide me on how to use certain classes that I was not very familiar with.
-
-- **Code Abstraction**
-
-Some portions of code were abstracted into separate functions and/or modules (external files), which are then imported as needed. This approach improves code organisation, readability, and maintainability.
-
-- **Python Programming**
-
-The core application is written in Python, using libraries such as `Pandas`, `NumPy`, `Scikit-learn` and `Flask`.
-
-- **SQL**
-
-Used SQL queries for exploratory data analysis in DataFrames using `pandasql`.
-
-- **HTML, Jinja2, JavaScript & CSS** (including Bootstrap)
-
-A simple but functional and interactive front-end was built using HTML, JavaScript, and CSS, with some Bootstrap components for improved aesthetics. `Flask` was used to develop the back-end web application. These technologies were introduced in CS50x’s Lectures 8 and 9.
-
-Jinja2 templating was used within the HTML files to handle repetitive elements, helping keep the code cleaner, more maintainable, and better organised.
 
 ---
 
 ## Appendices
 
-
-
 ### Appendix A
 
 #### Some Key Challenges Faced During the Project (and how I overcame them)
 
-[Please click here to read](challenges.md) (for those who are interested)
+[Please click here to read](documentation/challenges.md) (for those who are interested)
 
 ---
 
@@ -190,7 +166,7 @@ Jinja2 templating was used within the HTML files to handle repetitive elements, 
 
 #### Deep Dives into Technical Details
 
-[Please click here to read](technical.md) (for those who are interested)
+[Please click here to read](documentation/technical.md) (for those who are interested)
 
 ---
 
@@ -198,9 +174,11 @@ Jinja2 templating was used within the HTML files to handle repetitive elements, 
 
 The following may provide greater insights into the context of this project:
 
-- [Motivation & Background](motivation.md) — Why I chose to take CS50x and my computing background before taking the course
+- [Motivation & Background](documentation/motivation.md) — Why I chose to take CS50x and my computing background before taking the course
 
-- [Acknowledgements](acknowledgements.md) — The help I obtained throughout this project and the external sources that I used
+- [Concepts Applied from CS50x](documentation/cs50x_concepts.md) - How I applied concepts learnt in CS50x to this project
+
+- [Acknowledgements](documentation/acknowledgements.md) — The help I obtained throughout this project and the external sources that I used
 
 ---
 
@@ -208,8 +186,9 @@ The following may provide greater insights into the context of this project:
 
 Some of these documents have already been linked throughout the README, but here’s a handy list in one place for easy access:
 
-- [Challenges Faced](challenges.md)
-- [Technical Details](technical.md)
-- [Motivation & Background](motivation.md)
-- [Acknowledgements](acknowledgements.md)
-- [File Descriptions](files.md)
+- [Challenges Faced](documentation/challenges.md)
+- [Technical Details](documentation/technical.md)
+- [Motivation & Background](documentation/motivation.md)
+- [Concepts Applied from CS50x](documentation/cs50x_concepts.md)
+- [Acknowledgements](documentation/acknowledgements.md)
+- [File Descriptions](documentation/files.md)
