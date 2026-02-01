@@ -1,11 +1,8 @@
 import pickle
-import numpy as np
 
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import (mean_absolute_error, mean_squared_error)
-from data_pipeline import df_ready
+from .data_pipeline import df_ready
 
 
 df_all_predictors = df_ready.drop(['streams', 'streams_raw'], axis=1).copy()
@@ -21,67 +18,16 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=42,
 )
 
-
-def preview_dataset_table(X_test):
-    """View first 5 rows of selected portion of data"""
-
-    print(X_test.head(5))
-
-
 # Model
 regressor = RandomForestRegressor(
-    n_estimators=200,
+    n_estimators=100,
     max_depth=15,
-    min_samples_leaf=2,
+    min_samples_leaf=4,
     min_samples_split=5,
     random_state=42
 )
 regressor.fit(X_train, y_train)
 
-
-def cross_val():
-    """
-    Performing a one-time hyperparameter tuning using GridSearchCV with 5-fold cross validation.
-    Prints best set of hyperparameters and its R2 score.
-    Not used in final training.
-    """
-
-    param_grid = {
-        'max_depth': [5, 10, 15, None],
-        'n_estimators': [100, 200],
-        'min_samples_leaf': [2, 4],
-        'min_samples_split': [5, 10]
-    }
-
-    rf = RandomForestRegressor(random_state=42)
-    grid_search = GridSearchCV(
-        estimator=rf,
-        param_grid=param_grid,
-        scoring='r2',
-        cv=5
-    )
-
-    grid_search.fit(X_train, y_train)
-    best_estimator_number = grid_search.best_estimator_
-    best_params = grid_search.best_params_
-    best_score = grid_search.best_score_
-
-    print("Best parameters:", best_params)
-    print("Best R2 score:", best_score)
-
-
 # Saving trained model
 with open('model.pickle', 'wb') as file:
     pickle.dump(regressor, file)
-
-
-if __name__ == '__main__':
-    y_predicted = regressor.predict(X_test)
-
-    r2 = regressor.score(X_test, y_test)
-    mae = mean_absolute_error(y_test, y_predicted)
-    rmse = np.sqrt(mean_absolute_error(y_test, y_predicted))
-
-    print(f"r2: {r2:.4f}")
-    print(f"mae: {mae:.4f}")
-    print(f"rmse: {rmse:.4f}")
