@@ -1,6 +1,6 @@
 # Predicting Spotify Song Streams
 
-## Project Overview
+## 📝 Project Overview
 
 This project explores a deceptively simple question: 
 
@@ -8,7 +8,7 @@ This project explores a deceptively simple question:
 
 It features a full-stack data-driven web application that estimates a song's Spotify stream count using supervised machine learning. Beyond generating predictions, this project investigates the strengths and limitations of feature-based prediction in cultural markets, where outcomes are considerably influenced by external factors that are often hard to quantify (e.g., marketing, branding, artist popularity).
 
-## What Makes This Problem Interesting
+## 😮 What Makes This Problem Interesting
 
 Spotify stream counts follow a highly-skewed distribution and are influenced by many variables that are difficult to fully capture in typical audio data sets. As such, predicting stream counts is a challenging yet realistic modelling task.
 
@@ -22,11 +22,11 @@ This project aims to:
 
 The project prioritises interpretability, error analysis and honest evaluation over optimising for maximal accuracy or creating the ideal predictive model.
 
-## Project Evolution
+## 🌱 Project Evolution
 
 The original version of this project was built as my CS50x final project. Since then, I substantially enhanced it with deeper error analysis, improved evaluation, clearer model interpretation and containerisation (Docker) to align with production-oriented workflows.
 
-## High-Level Modelling Approach 
+## 🧠 High-Level Modelling Approach 
 
 - A Random Forest Regressor was trained on the "Most Streamed Spotify Songs of 2023" dataset from Kaggle.
 - Data were cleaned and exploratory data analysis performed.
@@ -42,7 +42,7 @@ KIV - to be completed
 
 KIV - to be completed
 
-## Application Architecture
+## 🖥️ Application Architecture
 
 This project is implemented as a Flask-based web application where:
 
@@ -113,6 +113,8 @@ project/
 ```
 
 ## 🔧 Technologies Used
+
+TO BE UPDATED
 
 **Front-end:**
 
