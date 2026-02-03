@@ -2,6 +2,7 @@ import pickle
 import numpy as np
 import pandas as pd
 
+from pathlib import Path
 from flask import Flask, request, render_template
 from web_app.validation import server_side_validation
 from web_app.input_preprocessing import preprocess_input
@@ -10,7 +11,10 @@ from data_processing.model import X
 
 app = Flask(__name__)
 
-with open('/workspaces/spotify-web-app/project/data_processing/model.pickle', 'rb') as file:
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODEL_PATH = BASE_DIR / "data_processing" / "model.pickle"
+
+with open(MODEL_PATH, "rb") as file:
     model = pickle.load(file)
 
 
