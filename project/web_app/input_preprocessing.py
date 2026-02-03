@@ -1,6 +1,6 @@
 import numpy as np
 
-from project.data_processing.data_pipeline import df_ready
+from data_processing.data_pipeline import df_ready
 
 
 def minmaxscale(input_var, column):

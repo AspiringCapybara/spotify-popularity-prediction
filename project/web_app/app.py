@@ -10,7 +10,7 @@ from data_processing.model import X
 
 app = Flask(__name__)
 
-with open('/workspaces/218464328/project/data_processing/model.pickle', 'rb') as file:
+with open('/workspaces/spotify-web-app/project/data_processing/model.pickle', 'rb') as file:
     model = pickle.load(file)
 
 
