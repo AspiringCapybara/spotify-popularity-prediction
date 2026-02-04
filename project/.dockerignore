@@ -1,0 +1,4 @@
+**/*.ipynb
+documentation/
+.git/
+__pycache__/
