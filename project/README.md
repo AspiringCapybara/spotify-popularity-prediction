@@ -152,7 +152,6 @@ project/
 │   │   ├── corr_heatmap.png
 │   │   └── scatter_plot_matrix.png
 │   ├── acknowledgements.md
-│   ├── concepts_applied.md
 │   └── technical.md
 ├── web_app/
 │   ├── static/
