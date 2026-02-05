@@ -1,4 +1,4 @@
-# Predicting Spotify Song Streams
+# 🎧 Predicting Spotify Song Streams
 
 ## 📝 Project Overview
 
@@ -20,11 +20,23 @@ This project aims to:
     <li>highlight the limitations of purely data-driven approaches in artistic fields</li>
 </ul>
 
-The project prioritises interpretability, error analysis and honest evaluation over optimising for maximal accuracy or creating the ideal predictive model.
+The project prioritises interpretability, error analysis and rigorous evaluation over optimising for maximal accuracy or creating the ideal predictive model.
+
+## 🙂 Who This Project Is For
+
+This project is intended for readers interested in applied data science, machine learning evaluation and the limitations of feature-based predictive modelling in real-world cultural markets.
+
+It is particularly relevant for those interested in modelling heavy-tailed outcomes and evaluating models beyond headline metrics.
 
 ## 🌱 Project Evolution
 
-The original version of this project was built as my CS50x final project. Since then, I substantially enhanced it with deeper error analysis, improved evaluation, clearer model interpretation and containerisation (Docker) to align with production-oriented workflows.
+The original version of this project was built as my CS50x final project. Since then, I substantially extended and enhanced it with deeper error analysis, improved evaluation, clearer model interpretation and containerisation (Docker) to better align with production-oriented workflows. The project structure was also refactored specifically for portfolio presentation.
+
+## 🔑 Key Takeaway (TL;DR)
+
+**Streaming popularity is driven far more by exposure than by audio characteristics or release timing. As a result, the biggest hits are hard to predict without data on promotion, artist popularity and other external factors.**
+
+---
 
 ## 🧠 High-Level Modelling Approach 
 
@@ -34,13 +46,41 @@ The original version of this project was built as my CS50x final project. Since 
 - Audio features and metadata were selected, encoded and scaled through a reproducible preprocessing pipeline.
 - The model's hyperparameters were tuned using `GridSearchCV`.
 
-## Evaluation Strategy
+## 📊📈 Evaluation Strategy
 
-KIV - to be completed
+Model performance is not assessed using a single metric alone. On top of R2, this project highlights:
+- residual analysis across different ranges of popularity,
+- interpretation of prediction errors on a log scale,
+- and inspection of where the model consistently under-predicts or over-predicts stream counts.
 
-## Key Insights and Limitations
+This evaluation strategy reflects real-world data science practice, in which understanding *where* and *how* a model can fail often offers deeper insights than purely focusing on analysing headline metrics.
 
-KIV - to be completed
+## 🔍 Summary of Key Insights
+
+The following findings illustrate how the conclusion is reached from the data and evaluation results.
+
+- **Playlist exposure is the dominant driver of a song's streaming volume.**
+
+Permutation importance and ablation analysis show that removing the playlist-related feature causes a large drop in R2 and a sharp increase in error. This demonstrates that the exposure a song has gained dominates intrinsic audio characteristics and release timing when explaining a song's stream count.
+
+- **The model performs best for songs with mid-range stream counts.**
+
+Residual analysis and absolute error analysis by stream count quantiles show relatively low errors for moderately-popular songs, whereas model performance degrades for extreme outliers.
+
+- **Highly popular songs are systematically under-predicted.**
+
+The predicted vs actual plot (log-log scale) illustrates upper-tail compression of the model's predictions, reflecting the influence of external factors (e.g., marketing, branding, artist popularity) that are not captured in the dataset.
+
+- **Overall model performance is realistic for stream count prediction.**
+
+An R2 of about 0.55, together with reasonable MAE and RMSE, demonstrate that the model captured meaningful signals. 
+
+## 🤔 Limitations and Future Work
+
+- Incorporating external variables such as artist popularity
+- Comparing predictions across time periods to study changes over time
+- Displaying confidence intervals of models to users rather than point estimates of stream count alone
+- Evaluating alternative loss functions to reduce upper-tail compression in stream count predictions
 
 ## 🖥️ Application Architecture
 
@@ -54,39 +94,66 @@ This project is implemented as a Flask-based web application where:
 
 UI elements (e.g., sliders, collapsible sections) are implemented using Bootstrap, JavaScript and Jinja2 macros to improve the application's usability.
 
+## ⚙️ Setup and Running the App (Docker)
 
-## ⚙️ Setup and Running the App
+This project includes a Docker configuration to ensure that the web app runs consistently across different environments.
 
-Clone the repository by running this code in the terminal:
+### 1. Clone the repository
+
+In the terminal, run:
 
 ```bash
 git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
 ```
 
-This project uses a `requirements.txt` file to manage Python dependencies. Next, to install all the required packages, run this command in the terminal:
+### 2. Build the Docker Image
+
+From the project root (i.e., where the Dockerfile is located), run:
+
 ```bash
-pip install -r requirements.txt
+docker build -t spotify-stream-predictor .
 ```
 
-To run the web app, run this command in the terminal:
+### 3. Run the container
+
+Then, once the image is built, run:
+
 ```bash
-cd project
-python -m flask run
+docker run -p 5000:5000 spotify-stream-predictor
+```
+
+Once the container is running, open your browser and visit this page, which is where the web app will be available:
+
+http://localhost:5000
+
+
+### (Optional) Running Without Docker
+
+This project uses a `requirements.txt` file to manage Python dependencies. To install all the required packages and run the web app, run from the project root directory:
+```bash
+pip install -r requirements.txt
+python -m web_app.app
 ```
 
 ## 🗃️ Full Project Structure
-
-KIV - to be updated at the end of revamping the project
 
 ```
 project/
 ├── data_processing/
 │   ├── __init__.py
-│   ├── cleaning.py
+│   ├── data_pipeline.py
+│   ├── eda.ipynb
+│   ├── model_evaluation.ipynb
 │   ├── model.py
-│   ├── popular_spotify_songs.csv
-│   └── preprocessing.py
+│   └── popular_spotify_songs.csv
+├── documentation/
+│   ├── visualisations/
+│   │   ├── corr_heatmap.png
+│   │   └── scatter_plot_matrix.png
+│   ├── acknowledgements.md
+│   ├── concepts_applied.md
+│   └── technical.md
 ├── web_app/
 │   ├── static/
 │   │   ├── music.png
@@ -99,72 +166,78 @@ project/
 │   ├── app.py
 │   ├── input_preprocessing.py
 │   └── validation.py
-├── __init__.py
-├── .flaskenv
-├── acknowledgements.md
-├── challenges.md
-├── corr_heatmap.png
-├── files.md
-├── motivation.md
+├── .dockerignore
+├── Dockerfile
 ├── README.md
-├── requirements.txt
-├── scatter_plot_matrix.png
-└── technical.md
+└── requirements.txt
 ```
+
+*Note: For simplicity in this portfolio project, data loading, preprocessing, training and inference logic share modules within `data_processing/`. These concerns would typically be separated in a production system.*
 
 ## 🔧 Technologies Used
 
-TO BE UPDATED
+### Environment and Deployment
 
-**Front-end:**
+- Docker for containerised, reproducible deployment of the Flask web application
 
-- HTML with Jinja2 for dynamic templates
-- CSS via Bootstrap for responsive styling
+### Front-end
+
+- HTML with Jinja2 for dynamic server-side templates
+- CSS via Bootstrap for responsive layout and styling
 - JavaScript for client-side interactivity
 
-**Back-end:**
+### Back-end
 
-- Flask framework for routing and rendering (`request`, `render_template`)
+- Flask framework for routing, request handling and template rendering
+    - `request`
+    - `render_template`
+- Python for inference and data flow between different components
 
-**Data Cleaning / Preprocessing:**
+### Data Analysis and Preprocessing
 
-- `Pandas` and `NumPy` for data manipulation
-- `matplotlib` and `seaborn` for exploratory data visualisation
-- `pandasql` for running SQL queries on DataFrames
+The following are used mainly in Jupyter Notebooks for exploratory data analysis (EDA), feature engineering and model evaluation:
+
+- `pandas` and `numpy` for data manipulation and feature engineering
+- `matplotlib` and `seaborn` for EDA and diagnostics
+- `pandasql` for running SQL-style queries on DataFrames during EDA
 - `statsmodels` for statistical checks (e.g., multicollinearity using `variance_inflation_factor`)
-- `scikit-learn` for preprocessing techniques like `OneHotEncoder` and `MinMaxScaler`
+- `scikit-learn` preprocessing tools
+    - `OneHotEncoder`
+    - `MinMaxScaler`
 
-**Machine Learning:**
+### Machine Learning
 
-- `scikit-learn`’s `RandomForestRegressor` for building the prediction model
+- `scikit-learn`
+    - `RandomForestRegressor` for building the prediction model
+    - `train_test_split` for partitioning the dataset
 
-**Saving and Loading Model:**
+### Model Evaluation
 
-- `pickle` was used to save the trained model for it to be loaded without requiring retraining.
+- Jupyter Notebooks for:
+    - Evaluation metrics analysis
+    - Visualising predicted vs actual stream counts
+    - Error analysis by stream count quantiles
+    - Feature importance analysis
+    - Ablation experiment
 
-**Data Source:**
+### Model Persistence
+
+- `pickle` was used to save the trained model so it can be loaded without requiring retraining.
+
+### Data Source
 
 - Kaggle dataset: *Most Streamed Spotify Songs 2023*
-
-## 📂 What Each File Does
-
-[Please click here](documentation/files.md) for a brief description of what each file in the project (excluding Markdown files) does.
 
 _(Note: You don’t need to understand the code in detail to use the project. Technical notes are available for those who are curious in the [Appendices](#appendices).)_
 
 ---
 
-## Appendices
+## 📚 Appendices
 
-### Appendix A
-
-#### Some Key Challenges Faced During the Project (and how I overcame them)
-
-[Please click here to read](documentation/challenges.md) (for those who are interested)
+Appendices contain optional deep dives and are not required to understand the core project.
 
 ---
-
-### Appendix B
+### Appendix A
 
 #### Deep Dives into Technical Details
 
@@ -172,25 +245,12 @@ _(Note: You don’t need to understand the code in detail to use the project. Te
 
 ---
 
-### Appendix C
+### Appendix B
 
 The following may provide greater insights into the context of this project:
 
-- [Motivation & Background](documentation/motivation.md) — Why I chose to take CS50x and my computing background before taking the course
-
-- [Concepts Applied from CS50x](documentation/cs50x_concepts.md) - How I applied concepts learnt in CS50x to this project
+- [Concepts Applied](documentation/concepts_applied.md) - How I applied CS / ML concepts (some learnt from CS50x) to this project
 
 - [Acknowledgements](documentation/acknowledgements.md) — The help I obtained throughout this project and the external sources that I used
 
 ---
-
-## 📚 Quick Reference: Additional Documentation
-
-Some of these documents have already been linked throughout the README, but here’s a handy list in one place for easy access:
-
-- [Challenges Faced](documentation/challenges.md)
-- [Technical Details](documentation/technical.md)
-- [Motivation & Background](documentation/motivation.md)
-- [Concepts Applied from CS50x](documentation/cs50x_concepts.md)
-- [Acknowledgements](documentation/acknowledgements.md)
-- [File Descriptions](documentation/files.md)
