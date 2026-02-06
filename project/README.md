@@ -234,22 +234,9 @@ _(Note: You don’t need to understand the code in detail to use the project. Te
 
 ## 📚 Appendices
 
-Appendices contain optional deep dives and are not required to understand the core project.
+Appendices are optional and not required to understand the core project.
 
----
-### Appendix A
-
-#### Deep Dives into Technical Details
-
-[Please click here to read](documentation/technical.md) (for those who are interested)
-
----
-
-### Appendix B
-
-The following may provide greater insights into the context of this project:
-
-- [Concepts Applied](documentation/concepts_applied.md) - How I applied CS / ML concepts (some learnt from CS50x) to this project
+- [Practices and Techniques Demonstrated](documentation/practices.md) — Core data science and software engineering practices demonstrated in this project
 
 - [Acknowledgements](documentation/acknowledgements.md) — The help I obtained throughout this project and the external sources that I used
 
