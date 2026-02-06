@@ -53,7 +53,7 @@ Model performance is not assessed using a single metric alone. On top of R2, thi
 - interpretation of prediction errors on a log scale,
 - and inspection of where the model consistently under-predicts or over-predicts stream counts.
 
-This evaluation strategy reflects real-world data science practice, in which understanding *where* and *how* a model can fail often offers deeper insights than purely focusing on analysing headline metrics.
+This approach reflects real-world data science practice, in which understanding *where* and *how* a model can fail often offers deeper insights than purely focusing on analysing headline metrics.
 
 ## 🔍 Summary of Key Insights
 
