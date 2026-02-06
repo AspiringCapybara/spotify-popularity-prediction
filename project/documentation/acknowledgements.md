@@ -7,14 +7,12 @@ ChatGPT (OpenAI) was used as a development aid and reference while:
 
 These portions of code were reviewed, adapted and tested to ensure correctness and understanding. The final project structure, analysis choices and interpretations reflect my own understanding and decisions informed by suggestions given by AI.
 
-## 📚 Sources used:
+## 📚 References:
 
 - Dataset: Kaggle - https://www.kaggle.com/datasets/ahmadrazakashif/spotify-popularity-songs/data?select=Popular_Spotify_Songs+%281%29.csv
 - Google Advanced Data Analytics Professional Certificate (Coursera)
 - CS50x 2025 (Harvard University)
-- ChatGPT (OpenAI): Development aid, conceptual clarification, generation of image used in web app's user interface
-- Google Gemini: Mild stylistic polishing of README
-- Google AI: Conceptual clarification
+- AI tools (ChatGPT, Google Gemini): Development aid, conceptual clarification, generation of image used in web app's user interface, stylistic polishing
 - Docker documentation: https://docs.docker.com/get-started/docker-overview/
 - pandas documentation: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop.html#pandas.DataFrame.drop
 - seaborn documentation: https://seaborn.pydata.org/generated/seaborn.pairplot.html
