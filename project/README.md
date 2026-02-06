@@ -228,8 +228,6 @@ The following are used mainly in Jupyter Notebooks for exploratory data analysis
 
 - Kaggle dataset: *Most Streamed Spotify Songs 2023*
 
-_(Note: You don’t need to understand the code in detail to use the project. Technical notes are available for those who are curious in the [Appendices](#appendices).)_
-
 ---
 
 ## 📚 Appendices
