@@ -145,6 +145,7 @@ project/
 │   ├── data_pipeline.py
 │   ├── eda.ipynb
 │   ├── model_evaluation.ipynb
+│   ├── model.pickle                # Pre-trained model used for inference in the web app
 │   ├── model.py
 │   └── popular_spotify_songs.csv
 ├── documentation/
@@ -152,7 +153,7 @@ project/
 │   │   ├── corr_heatmap.png
 │   │   └── scatter_plot_matrix.png
 │   ├── acknowledgements.md
-│   └── technical.md
+│   └── practices.md
 ├── web_app/
 │   ├── static/
 │   │   ├── music.png
