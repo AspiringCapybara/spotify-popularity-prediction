@@ -6,4 +6,3 @@ pandasql
 scikit-learn
 statsmodels
 Flask
-python-dotenv
