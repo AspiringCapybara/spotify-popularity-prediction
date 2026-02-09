@@ -38,7 +38,7 @@ The original version of this project was built as my CS50x final project. Since 
 
 ### ⚠️ Dataset Note
 
-The original dataset used for analysis is not included in this repository due to licensing restrictions. The analysis notebooks assume the presence of `data_processing/popular_spotify_songs.csv`.
+The original dataset used for analysis is not included in this repository due to licensing restrictions. The analysis notebooks assume the presence of `data_processing/popular_spotify_songs.csv` and are presented with pre-generated outputs for review.
 
 All figures and results shown in this repository were generated using the original dataset.
 
@@ -152,11 +152,14 @@ project/
 │   ├── eda.ipynb
 │   ├── model_evaluation.ipynb
 │   ├── model.pickle                # Pre-trained model used for inference in the web app
-│   ├── model.py
-│   └── popular_spotify_songs.csv
+│   └── model.py
 ├── documentation/
 │   ├── visualisations/
+│   │   ├── abs_error_by_quantile.png
 │   │   ├── corr_heatmap.png
+│   │   ├── permut_feature_importance.png
+│   │   ├── predicted_vs_actual.png
+│   │   ├── residuals_vs_predictions.png
 │   │   └── scatter_plot_matrix.png
 │   ├── acknowledgements.md
 │   └── practices.md
@@ -173,6 +176,7 @@ project/
 │   ├── input_preprocessing.py
 │   └── validation.py
 ├── .dockerignore
+├── .gitignore
 ├── Dockerfile
 ├── README.md
 └── requirements.txt
