@@ -1,1 +1,2 @@
-data_processing/*.csv
+# Actual dataset file
+data_processing/popular_spotify_songs.csv
