@@ -36,6 +36,12 @@ The original version of this project was built as my CS50x final project. Since 
 
 **Streaming popularity is driven far more by exposure than by audio characteristics or release timing. As a result, the biggest hits are hard to predict without data on promotion, artist popularity and other external factors.**
 
+### ⚠️ Dataset Note
+
+The original dataset used for analysis is not included in this repository due to licensing restrictions. The analysis notebooks assume the presence of `data_processing/popular_spotify_songs.csv`.
+
+All figures and results shown in this repository were generated using the original dataset.
+
 ---
 
 ## 🧠 High-Level Modelling Approach 
