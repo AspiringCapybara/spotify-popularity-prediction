@@ -1,6 +1,3 @@
-# Actual dataset file
-data_processing/popular_spotify_songs.csv
-
 # Local presentation helpers
 data_processing/embed_images.py
 data_processing/embedded_figures.md
