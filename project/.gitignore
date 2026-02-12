@@ -4,3 +4,11 @@ data_processing/popular_spotify_songs.csv
 # Local presentation helpers
 data_processing/embed_images.py
 data_processing/embedded_figures.md
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
