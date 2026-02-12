@@ -142,44 +142,47 @@ pip install -r requirements.txt
 python -m web_app.app
 ```
 
-## 🗃️ Full Project Structure
+## 🗃️ Full Repository Structure
 
 ```
-project/
-├── data_processing/
-│   ├── __init__.py
-│   ├── data_pipeline.py
-│   ├── eda.ipynb
-│   ├── model_evaluation.ipynb
-│   ├── model.pickle                # Pre-trained model used for inference in the web app
-│   └── model.py
-├── documentation/
-│   ├── visualisations/
-│   │   ├── abs_error_by_quantile.png
-│   │   ├── corr_heatmap.png
-│   │   ├── permut_feature_importance.png
-│   │   ├── predicted_vs_actual.png
-│   │   ├── residuals_vs_predictions.png
-│   │   └── scatter_plot_matrix.png
-│   ├── acknowledgements.md
-│   └── practices.md
-├── web_app/
-│   ├── static/
-│   │   ├── music.png
-│   │   └── styles.css
-│   ├── templates/
-│   │   ├── index.html
-│   │   ├── layout.html
-│   │   └── rangeslider_js.html
-│   ├── __init__.py
-│   ├── app.py
-│   ├── input_preprocessing.py
-│   └── validation.py
-├── .dockerignore
+spotify-web-app
+├── project/
+│   ├── data_processing/
+│   │   ├── __init__.py
+│   │   ├── data_pipeline.py
+│   │   ├── eda.ipynb
+│   │   ├── model_evaluation.ipynb
+│   │   ├── model.pickle                # Pre-trained model used for inference in the web app
+│   │   └── model.py
+│   ├── documentation/
+│   │   ├── visualisations/
+│   │   │   ├── abs_error_by_quantile.png
+│   │   │   ├── corr_heatmap.png
+│   │   │   ├── permut_feature_importance.png
+│   │   │   ├── predicted_vs_actual.png
+│   │   │   ├── residuals_vs_predictions.png
+│   │   │   └── scatter_plot_matrix.png
+│   │   ├── acknowledgements.md
+│   │   └── practices.md
+│   ├── web_app/
+│   │   ├── static/
+│   │   │   ├── music.png
+│   │   │   └── styles.css
+│   │   ├── templates/
+│   │   │   ├── index.html
+│   │   │   ├── layout.html
+│   │   │   └── rangeslider_js.html
+│   │   ├── __init__.py
+│   │   ├── app.py
+│   │   ├── input_preprocessing.py
+│   │   └── validation.py
+│   ├── .dockerignore
+│   ├── .gitignore
+│   ├── Dockerfile
+│   └── requirements.txt
 ├── .gitignore
-├── Dockerfile
 ├── README.md
-└── requirements.txt
+└── LICENSE
 ```
 
 *Note: For simplicity in this portfolio project, data loading, preprocessing, training and inference logic share modules within `data_processing/`. These concerns would typically be separated in a production system.*
