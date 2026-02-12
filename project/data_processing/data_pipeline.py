@@ -33,8 +33,11 @@ df_processed['mode'] = df_processed['mode'].replace('Major', 1)
 df_processed['mode'] = df_processed['mode'].replace('Minor', 0)
 df_processed['mode'] = df_processed['mode'].astype(int)
 
-df_processed = df_processed.drop(df_processed.index[[478]]).reset_index(
-    drop=True)      # Remove row with erroneous data
+if len(df_processed) > 478:     # Safeguard added so code works for both full and dummy dataset
+    df_processed = df_processed.drop(df_processed.index[[478]]).reset_index(
+        drop=True)      # Remove row with erroneous data
+else:
+    df_processed = df_processed.reset_index(drop=True)
 df_processed = df_processed.astype({'streams': 'int64'})
 
 # Log-normalise selected features
