@@ -7,6 +7,9 @@ from flask import Flask, request, render_template
 from web_app.validation import server_side_validation
 from web_app.input_preprocessing import preprocess_input
 
+# Unused import added to ensure pickle can resolve import
+from data_processing.log_transformer import LogFeatureTransformer
+
 
 app = Flask(__name__)
 
