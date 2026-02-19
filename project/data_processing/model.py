@@ -7,6 +7,7 @@ from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.compose import ColumnTransformer
+from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 
 current_dir = os.path.dirname(__file__)
@@ -47,6 +48,27 @@ if len(df) > 478:
 df['streams_raw'] = df['streams']
 df['streams'] = np.log(df['streams'])
 
+
+class LogFeatureTransformer(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        self.epsilon = 1e-8
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        X = X.copy()
+
+        # Log-normalise selected features
+        X['speechiness_%_log'] = np.log(X['speechiness_%'] + self.epsilon)
+        X['liveness_%_log'] = np.log(X['liveness_%'] + self.epsilon)
+        X['acousticness_%_log'] = np.log(X['acousticness_%'] + self.epsilon)
+
+        X = X.drop(["speechiness_%", "liveness_%", "acousticness_%"], axis=1)
+
+        return X
+
+
 # Define features
 X = df.drop('streams', axis=1)
 y = df['streams']
@@ -66,6 +88,7 @@ preprocessor = ColumnTransformer(
 )
 
 pipeline = Pipeline(steps=[
+    ('log_normalisation', LogFeatureTransformer()),
     ('preprocessing', preprocessor),
     ('model', RandomForestRegressor(
         n_estimators=100,
