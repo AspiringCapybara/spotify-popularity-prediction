@@ -89,7 +89,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 pipeline.fit(X_train, y_train)
 
-# Save trained model
+# Save trained model in same folder
 MODEL_PATH = os.path.join(current_dir, 'model.pickle')
 with open(MODEL_PATH, 'wb') as file:
     pickle.dump(pipeline, file)
