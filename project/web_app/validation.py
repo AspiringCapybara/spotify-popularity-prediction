@@ -1,7 +1,9 @@
 import datetime as dt
 
 
-def server_side_validation(num_playlists, release_year, release_month, mode, key, tempo, energy, danceability, valence, acousticness, liveness, speechiness):
+def server_side_validation(num_playlists, release_year, release_month,
+                           mode, key, tempo, energy, danceability,
+                           valence, acousticness, liveness, speechiness):
     """Server-side validation of form input"""
 
     predictor_values = [
