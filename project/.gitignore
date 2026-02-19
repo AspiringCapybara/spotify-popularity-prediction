@@ -2,6 +2,9 @@
 data_processing/embed_images.py
 data_processing/embedded_figures.md
 
+# Actual dataset
+data_processing/popular_spotify_songs.csv
+
 # Python cache
 __pycache__/
 *.py[cod]
