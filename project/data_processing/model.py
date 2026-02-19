@@ -47,13 +47,6 @@ if len(df) > 478:
 df['streams_raw'] = df['streams']
 df['streams'] = np.log(df['streams'])
 
-# Log-normalise selected features
-epsilon = 1e-8
-df['speechiness_%_log'] = np.log(df['speechiness_%'] + epsilon)
-df['liveness_%_log'] = np.log(df['liveness_%'] + epsilon)
-df['acousticness_%_log'] = np.log(df['acousticness_%'] + epsilon)
-df = df.drop(['speechiness_%', 'liveness_%', 'acousticness_%'], axis=1).copy()
-
 # Define features
 X = df.drop('streams', axis=1)
 y = df['streams']
