@@ -23,7 +23,7 @@ except UnicodeDecodeError:
 
 
 # Cleaning the data
-df.drop_duplicates('track_name')
+df = df.drop_duplicates('track_name')
 df = df.dropna(how='any')
 
 # Feature selection for model
