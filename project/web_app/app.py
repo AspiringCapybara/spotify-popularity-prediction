@@ -6,7 +6,7 @@ from pathlib import Path
 from flask import Flask, request, render_template
 from web_app.validation import server_side_validation
 from web_app.input_preprocessing import preprocess_input
-from data_processing.model import X
+from project.data_processing.model import X
 
 
 app = Flask(__name__)
@@ -33,16 +33,6 @@ def index():
                 'acousticness', 'liveness', 'speechiness'
             ]
         )
-
-        num_playlists = int(num_playlists)
-        release_year = int(release_year)
-        tempo = int(tempo)
-        energy = float(energy)
-        danceability = float(danceability)
-        valence = float(valence)
-        acousticness = float(acousticness)
-        liveness = float(liveness)
-        speechiness = float(speechiness)
 
         server_side_validation(num_playlists, release_year, release_month, mode, key,
                                tempo, energy, danceability, valence, acousticness, liveness, speechiness)
