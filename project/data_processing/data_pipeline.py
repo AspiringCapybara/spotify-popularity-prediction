@@ -1,9 +1,13 @@
 import pandas as pd
 import numpy as np
 import os
+import pickle
 
 from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
-
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
 
 current_dir = os.path.dirname(__file__)
 csv_path = os.path.join(current_dir, 'popular_spotify_songs.csv')
@@ -18,76 +22,76 @@ except UnicodeDecodeError:
         df = pd.read_csv(csv_path, encoding='cp1252')
 
 
-def preprocess_dataframe(df):
-    # Cleaning the data
-    df.drop_duplicates('track_name')
-    df_no_nulls = df.dropna(how='any')
+# Cleaning the data
+df.drop_duplicates('track_name')
+df = df.dropna(how='any')
 
-    # Feature selection for model
-    df_cleaned = df_no_nulls.drop(['track_name', 'artist(s)_name', 'artist_count', 'released_day', 'in_spotify_charts',
-                                   'in_apple_playlists', 'in_apple_charts', 'in_deezer_playlists', 'in_deezer_charts', 'in_shazam_charts'], axis=1)
+# Feature selection for model
+df = df.drop(['track_name', 'artist(s)_name', 'artist_count', 'released_day', 'in_spotify_charts',
+              'in_apple_playlists', 'in_apple_charts', 'in_deezer_playlists', 'in_deezer_charts', 'in_shazam_charts'], axis=1)
 
-    # Instrumentalness is not helpful for modelling due to low variance
-    df_processed = df_cleaned.drop(['instrumentalness_%'], axis=1).copy()
+# Instrumentalness is not helpful for modelling due to low variance
+df = df.drop(['instrumentalness_%'], axis=1).copy()
 
-    pd.set_option('future.no_silent_downcasting', True)
-    df_processed['mode'] = df_processed['mode'].replace('Major', 1)
-    df_processed['mode'] = df_processed['mode'].replace('Minor', 0)
-    df_processed['mode'] = df_processed['mode'].astype(int)
+# Convert mode to numeric
+pd.set_option('future.no_silent_downcasting', True)
+df['mode'] = df['mode'].replace('Major', 1)
+df['mode'] = df['mode'].replace('Minor', 0)
+df['mode'] = df['mode'].astype(int)
 
-    if len(df_processed) > 478:     # Safeguard added so code works for both full and dummy dataset
-        df_processed = df_processed.drop(df_processed.index[[478]]).reset_index(
-            drop=True)      # Remove row with erroneous data
-    else:
-        df_processed = df_processed.reset_index(drop=True)
-    df_processed = df_processed.astype({'streams': 'int64'})
+if len(df) > 478:     # Safeguard added so code works for both full and dummy dataset
+    df = df.drop(df.index[[478]]).reset_index(
+        drop=True)      # Remove row with erroneous data
+else:
+    df = df.reset_index(drop=True)
+df = df.astype({'streams': 'int64'})
 
-    # Log-normalise selected features
-    epsilon = 1e-8
-    df_processed['speechiness_%_log'] = np.log(
-        df_processed['speechiness_%'] + epsilon)
-    df_processed['liveness_%_log'] = np.log(
-        df_processed['liveness_%'] + epsilon)
-    df_processed['acousticness_%_log'] = np.log(
-        df_processed['acousticness_%'] + epsilon)
-    df_normalised = df_processed.drop(
-        ['speechiness_%', 'liveness_%', 'acousticness_%'], axis=1).copy()
+# Log-normalise selected features
+epsilon = 1e-8
+df['speechiness_%_log'] = np.log(
+    df['speechiness_%'] + epsilon)
+df['liveness_%_log'] = np.log(
+    df['liveness_%'] + epsilon)
+df['acousticness_%_log'] = np.log(
+    df['acousticness_%'] + epsilon)
+df = df.drop(
+    ['speechiness_%', 'liveness_%', 'acousticness_%'], axis=1).copy()
 
-    def onehotencode(df, column_name):
-        """One-hot encode a variable"""
 
-        encoder = OneHotEncoder(drop='first', sparse_output=False)
-        encoded_data = encoder.fit_transform(df[[column_name]])
-        feature_names = encoder.get_feature_names_out(
-            input_features=[column_name])
-        encoded_data_df = pd.DataFrame(
-            data=encoded_data, columns=feature_names, index=df.index)
-        df_encoded = pd.concat(objs=[df, encoded_data_df], axis=1)
-        df_encoded = df_encoded.drop(columns=[column_name])
-        return df_encoded
+def onehotencode(df, column_name):
+    """One-hot encode a variable"""
 
-    df_encoded = onehotencode(df_normalised, 'key')
-    df_encoded = onehotencode(df_encoded, 'released_month')
+    encoder = OneHotEncoder(drop='first', sparse_output=False)
+    encoded_data = encoder.fit_transform(df[[column_name]])
+    feature_names = encoder.get_feature_names_out(
+        input_features=[column_name])
+    encoded_data_df = pd.DataFrame(
+        data=encoded_data, columns=feature_names, index=df.index)
+    df = pd.concat(objs=[df, encoded_data_df], axis=1)
+    df = df.drop(columns=[column_name])
+    return df
 
-    # Min-max scale selected variables
-    scaler = MinMaxScaler()
-    pd.set_option('display.max_rows', None)
-    scaler_input = df_encoded.loc[:, ['bpm', 'danceability_%', 'valence_%', 'energy_%', 'speechiness_%_log',
-                                      'liveness_%_log', 'acousticness_%_log']]
-    df_scaled = pd.DataFrame(scaler.fit_transform(scaler_input))
 
-    variable_names_list = scaler_input.columns.tolist()
-    variable_names_dict = {}
+df = onehotencode(df, 'key')
+df = onehotencode(df, 'released_month')
 
-    for i in range(len(variable_names_list)):
-        variable_names_dict[i] = variable_names_list[i]
+# Min-max scale selected variables
+scaler = MinMaxScaler()
+pd.set_option('display.max_rows', None)
+scaler_input = df.loc[:, ['bpm', 'danceability_%', 'valence_%', 'energy_%', 'speechiness_%_log',
+                          'liveness_%_log', 'acousticness_%_log']]
+df = pd.DataFrame(scaler.fit_transform(scaler_input))
 
-    df_scaled = df_scaled.rename(columns=variable_names_dict)
-    columns_to_replace = scaler_input.columns.tolist()
-    df_temp = df_encoded.drop(columns_to_replace, axis=1)
-    df_ready = pd.concat(objs=[df_temp, df_scaled], axis=1)
+variable_names_list = scaler_input.columns.tolist()
+variable_names_dict = {}
 
-    df_ready['streams_raw'] = df_ready['streams']
-    df_ready['streams'] = np.log(df_ready['streams'])
+for i in range(len(variable_names_list)):
+    variable_names_dict[i] = variable_names_list[i]
 
-    return df_ready
+df = df.rename(columns=variable_names_dict)
+columns_to_replace = scaler_input.columns.tolist()
+df = df.drop(columns_to_replace, axis=1)
+df = pd.concat(objs=[df, df], axis=1)
+
+df['streams_raw'] = df['streams']
+df['streams'] = np.log(df['streams'])
