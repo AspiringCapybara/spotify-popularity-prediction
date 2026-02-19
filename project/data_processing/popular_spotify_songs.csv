@@ -1,4 +1,0 @@
-track_name,artist(s)_name,artist_count,released_year,released_month,released_day,in_spotify_playlists,in_spotify_charts,streams,in_apple_playlists,in_apple_charts,in_deezer_playlists,in_deezer_charts,in_shazam_charts,bpm,key,mode,danceability_%,valence_%,energy_%,acousticness_%,instrumentalness_%,liveness_%,speechiness_%
-SongA,Dummy1,1,2010,4,3,10000,150,1413817036,250,200,30,20,700,100,B,Major,80,90,80,20,0,5,3
-SongB,Dummy2,1,2020,8,6,2000,70,180989213,50,50,40,30,500,75,C#,Major,60,20,60,10,0,10,4
-SongC,"Dummy3, Dummy4",2,2015,12,9,400,30,60010857,10,150,50,40,800,140,F,Minor,40,10,20,90,0,20,5
