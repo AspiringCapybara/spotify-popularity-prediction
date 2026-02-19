@@ -39,59 +39,60 @@ df['mode'] = df['mode'].replace('Major', 1)
 df['mode'] = df['mode'].replace('Minor', 0)
 df['mode'] = df['mode'].astype(int)
 
-if len(df) > 478:     # Safeguard added so code works for both full and dummy dataset
+if len(df) > 478:
     df = df.drop(df.index[[478]]).reset_index(
         drop=True)      # Remove row with erroneous data
-else:
-    df = df.reset_index(drop=True)
-df = df.astype({'streams': 'int64'})
+
+# Log-normalise target variable
+df['streams_raw'] = df['streams']
+df['streams'] = np.log(df['streams'])
 
 # Log-normalise selected features
 epsilon = 1e-8
-df['speechiness_%_log'] = np.log(
-    df['speechiness_%'] + epsilon)
-df['liveness_%_log'] = np.log(
-    df['liveness_%'] + epsilon)
-df['acousticness_%_log'] = np.log(
-    df['acousticness_%'] + epsilon)
-df = df.drop(
-    ['speechiness_%', 'liveness_%', 'acousticness_%'], axis=1).copy()
+df['speechiness_%_log'] = np.log(df['speechiness_%'] + epsilon)
+df['liveness_%_log'] = np.log(df['liveness_%'] + epsilon)
+df['acousticness_%_log'] = np.log(df['acousticness_%'] + epsilon)
+df = df.drop(['speechiness_%', 'liveness_%', 'acousticness_%'], axis=1).copy()
 
+# Define features
+X = df.drop('streams', axis=1)
+y = df['streams']
 
-def onehotencode(df, column_name):
-    """One-hot encode a variable"""
+# Features to be preprocessed
+numerical_features = ['bpm', 'speechiness_%_log', 'liveness_%_log',
+                      'acousticness_%_log', 'danceability_%', 'valence_%', 'energy_%']
+categorical_features = ['key', 'released_month']
 
-    encoder = OneHotEncoder(drop='first', sparse_output=False)
-    encoded_data = encoder.fit_transform(df[[column_name]])
-    feature_names = encoder.get_feature_names_out(
-        input_features=[column_name])
-    encoded_data_df = pd.DataFrame(
-        data=encoded_data, columns=feature_names, index=df.index)
-    df = pd.concat(objs=[df, encoded_data_df], axis=1)
-    df = df.drop(columns=[column_name])
-    return df
+# Preprocessing pipeline
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', MinMaxScaler(), numerical_features),
+        ('cat', OneHotEncoder(drop='first', sparse_output=False,
+         handle_unknown='ignore'), categorical_features)
+    ]
+)
 
+pipeline = Pipeline(steps=[
+    ('preprocessing', preprocessor),
+    ('model', RandomForestRegressor(
+        n_estimators=100,
+        max_depth=15,
+        min_samples_leaf=4,
+        min_samples_split=5,
+        random_state=42
+    ))
+])
 
-df = onehotencode(df, 'key')
-df = onehotencode(df, 'released_month')
+# Model training
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.3,
+    random_state=42,
+)
 
-# Min-max scale selected variables
-scaler = MinMaxScaler()
-pd.set_option('display.max_rows', None)
-scaler_input = df.loc[:, ['bpm', 'danceability_%', 'valence_%', 'energy_%', 'speechiness_%_log',
-                          'liveness_%_log', 'acousticness_%_log']]
-df = pd.DataFrame(scaler.fit_transform(scaler_input))
+pipeline.fit(X_train, y_train)
 
-variable_names_list = scaler_input.columns.tolist()
-variable_names_dict = {}
-
-for i in range(len(variable_names_list)):
-    variable_names_dict[i] = variable_names_list[i]
-
-df = df.rename(columns=variable_names_dict)
-columns_to_replace = scaler_input.columns.tolist()
-df = df.drop(columns_to_replace, axis=1)
-df = pd.concat(objs=[df, df], axis=1)
-
-df['streams_raw'] = df['streams']
-df['streams'] = np.log(df['streams'])
+# Save trained model
+with open('model.pickle', 'wb') as file:
+    pickle.dump(pipeline, file)
