@@ -6,7 +6,6 @@ from pathlib import Path
 from flask import Flask, request, render_template
 from web_app.validation import server_side_validation
 from web_app.input_preprocessing import preprocess_input
-from project.data_processing.model import X
 
 
 app = Flask(__name__)
