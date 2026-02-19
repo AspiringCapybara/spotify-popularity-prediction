@@ -10,6 +10,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from data_processing.log_transformer import LogFeatureTransformer
 
+
 current_dir = os.path.dirname(__file__)
 csv_path = os.path.join(current_dir, 'popular_spotify_songs.csv')
 
@@ -89,5 +90,6 @@ X_train, X_test, y_train, y_test = train_test_split(
 pipeline.fit(X_train, y_train)
 
 # Save trained model
-with open('model.pickle', 'wb') as file:
+MODEL_PATH = os.path.join(current_dir, 'model.pickle')
+with open(MODEL_PATH, 'wb') as file:
     pickle.dump(pipeline, file)
