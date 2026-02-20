@@ -35,12 +35,6 @@ df = df.drop(['track_name', 'artist(s)_name', 'artist_count', 'released_day', 'i
 # Instrumentalness is not helpful for modelling due to low variance
 df = df.drop(['instrumentalness_%'], axis=1).copy()
 
-# Convert mode to numeric
-pd.set_option('future.no_silent_downcasting', True)
-df['mode'] = df['mode'].replace('Major', 1)
-df['mode'] = df['mode'].replace('Minor', 0)
-df['mode'] = df['mode'].astype(int)
-
 if len(df) > 478:
     df = df.drop(df.index[[478]]).reset_index(
         drop=True)      # Remove row with erroneous data
