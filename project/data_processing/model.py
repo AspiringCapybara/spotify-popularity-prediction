@@ -43,6 +43,12 @@ if len(df) > 478:
 df['streams_raw'] = df['streams']
 df['streams'] = np.log(df['streams'])
 
+# Convert mode to numeric
+pd.set_option('future.no_silent_downcasting', True)
+df['mode'] = df['mode'].replace('Major', 1)
+df['mode'] = df['mode'].replace('Minor', 0)
+df['mode'] = df['mode'].astype(int)
+
 # Define features
 X = df.drop('streams', axis=1)
 y = df['streams']
