@@ -58,7 +58,8 @@ preprocessor = ColumnTransformer(
         ('num', MinMaxScaler(), numerical_features),
         ('cat', OneHotEncoder(drop='first', sparse_output=False,
          handle_unknown='ignore'), categorical_features),
-        ('playlist', 'passthrough', ['in_spotify_playlists'])
+        ('no_transform_needed', 'passthrough', [
+         'in_spotify_playlists', 'released_year'])
     ]
 )
 
