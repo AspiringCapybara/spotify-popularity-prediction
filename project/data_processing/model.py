@@ -54,16 +54,17 @@ X = df.drop('streams', axis=1)
 y = df['streams']
 
 # Features to be preprocessed
-numerical_features = ['bpm', 'speechiness_%_log', 'liveness_%_log',
-                      'acousticness_%_log', 'danceability_%', 'valence_%', 'energy_%']
-categorical_features = ['key', 'released_month']
+numerical_features = ['bpm', 'speechiness_%', 'liveness_%',
+                      'acousticness_%', 'danceability_%', 'valence_%', 'energy_%']
+categorical_features = ['key', 'released_month', 'mode']
 
 # Preprocessing pipeline
 preprocessor = ColumnTransformer(
     transformers=[
         ('num', MinMaxScaler(), numerical_features),
         ('cat', OneHotEncoder(drop='first', sparse_output=False,
-         handle_unknown='ignore'), categorical_features)
+         handle_unknown='ignore'), categorical_features),
+        ('playlist', 'passthrough', ['in_spotify_playlists'])
     ]
 )
 
