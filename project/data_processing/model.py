@@ -48,8 +48,8 @@ X = df.drop('streams', axis=1)
 y = df['streams']
 
 # Features to be preprocessed
-numerical_features = ['bpm', 'speechiness_%', 'liveness_%',
-                      'acousticness_%', 'danceability_%', 'valence_%', 'energy_%']
+numerical_features = ['bpm', 'speechiness_%_log', 'liveness_%_log',
+                      'acousticness_%_log', 'danceability_%', 'valence_%', 'energy_%']
 categorical_features = ['key', 'released_month', 'mode']
 
 # Preprocessing pipeline
