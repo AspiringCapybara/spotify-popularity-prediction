@@ -7,10 +7,6 @@ __pycache__/
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-# Trained model files (.pickle)
-*.pickle
-*.pkl
-
 # Local presentation helpers
 data_processing/embed_images.py
 data_processing/embedded_figures.md
