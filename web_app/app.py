@@ -14,7 +14,7 @@ from data_processing.log_transformer import LogFeatureTransformer
 app = Flask(__name__)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-MODEL_PATH = BASE_DIR / "data_processing" / "model.pickle"
+MODEL_PATH = BASE_DIR / "data_processing" / "artifacts" / "model.pickle"
 
 with open(MODEL_PATH, "rb") as file:
     model = pickle.load(file)
