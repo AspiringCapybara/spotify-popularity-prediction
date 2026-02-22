@@ -1,6 +1,8 @@
 # Python cache
 __pycache__/
 *.pyc
+*.py[cod]
+*$py.class
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
@@ -8,3 +10,10 @@ __pycache__/
 # Trained model files (.pickle)
 *.pickle
 *.pkl
+
+# Local presentation helpers
+data_processing/embed_images.py
+data_processing/embedded_figures.md
+
+# Actual dataset
+data_processing/popular_spotify_songs.csv
