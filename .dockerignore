@@ -1,0 +1,7 @@
+**/*.ipynb
+documentation/
+.git/
+__pycache__/
+.venv/
+*.pyc
+.gitignore/
