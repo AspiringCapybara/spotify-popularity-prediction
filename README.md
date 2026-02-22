@@ -147,11 +147,13 @@ python -m web_app.app
 ```
 spotify-web-app
 ├── data_processing/
+│   ├── artifacts/
+│   │   └── model.pickle                # Pre-trained ML pipeline used for inference in the web app
+│   ├── notebooks/
+│   │   ├── eda.ipynb
+│   │   └── model_evaluation.ipynb
 │   ├── __init__.py
-│   ├── data_pipeline.py
-│   ├── eda.ipynb
-│   ├── model_evaluation.ipynb
-│   ├── model.pickle                # Pre-trained model used for inference in the web app
+│   ├── log_transformer.py
 │   └── model.py
 ├── documentation/
 │   ├── visualisations/
