@@ -161,7 +161,7 @@ python -m web_app.app
 ## 🗃️ Full Repository Structure
 
 ```
-spotify-web-app
+spotify-popularity-prediction
 ├── data_processing/
 │   ├── artifacts/
 │   │   └── model.pickle                # Pre-trained ML pipeline used for inference in the web app
