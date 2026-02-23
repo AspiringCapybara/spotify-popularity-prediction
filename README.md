@@ -81,7 +81,7 @@ The predicted vs actual plot (log-log scale) illustrates upper-tail compression 
 
 An R2 of about 0.55, together with reasonable MAE and RMSE, demonstrate that the model captured meaningful signals. 
 
-## 🤔 Limitations and Future Work
+## 🤔 Limitations and Future Improvements
 
 - Incorporating external variables such as artist popularity
 - Comparing predictions across time periods to study changes over time
