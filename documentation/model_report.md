@@ -180,3 +180,13 @@ The Dockerised Flask application loads this artifact strictly for inference.
 All figures and metrics shown in notebooks were generated from the original dataset.
 
 Notebooks are presented with outputs preserved for inspection.
+
+---
+
+## 13. Technical Appendix
+
+The complete experimental analysis that includes, in greater detail, residual diagnostics and additional evaluation plots is available in:
+
+[model_evaluation.ipynb](../data_processing/notebooks/model_evaluation.ipynb)
+
+This notebook contains the full model evaluation workflow and preserved outputs for transparency.
