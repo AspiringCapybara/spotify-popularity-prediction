@@ -79,7 +79,23 @@ The predicted vs actual plot (log-log scale) illustrates upper-tail compression 
 
 - **Overall model performance is realistic for stream count prediction.**
 
-An R2 of about 0.55, together with reasonable MAE and RMSE, demonstrate that the model captured meaningful signals. 
+An R2 of about 0.55, together with reasonable MAE and RMSE, demonstrate that the model captured meaningful signals.
+
+## 📝 Technical Model Report
+
+A structured summary of the modelling process, evaluation methodology and deployment architecture is available here:
+
+[Model Development and Evaluation Report](documentation/model_report.md)
+
+The report provides additional details on:
+
+- Preprocessing pipeline design
+- Target transformation strategy
+- Quantile-based error analysis
+- Permutation feature importance and ablation study
+- Deployment and reproducibility decisions
+
+Readers interested in the full modelling rationale and diagnostics are encouraged to review this document.
 
 ## 🤔 Limitations and Future Improvements
 
@@ -164,6 +180,7 @@ spotify-web-app
 │   │   ├── residuals_vs_predictions.png
 │   │   └── scatter_plot_matrix.png
 │   ├── acknowledgements.md
+│   ├── model_report.md
 │   └── practices.md
 ├── web_app/
 │   ├── static/
