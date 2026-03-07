@@ -29,4 +29,4 @@ These portions of code were reviewed, adapted and tested to ensure correctness a
 
 ---
 
-[Return to main README](/project/README.md)
+[Return to main README](../README.md)
