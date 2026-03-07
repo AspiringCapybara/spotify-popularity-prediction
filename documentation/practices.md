@@ -48,4 +48,4 @@ This project demonstrates the application of several core data science and softw
 
 ---
 
-[Return to main README](/project/README.md)
+[Return to main README](../README.md)
