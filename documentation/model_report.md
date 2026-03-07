@@ -190,3 +190,7 @@ The complete experimental analysis that includes, in greater detail, residual di
 [model_evaluation.ipynb](../data_processing/notebooks/model_evaluation.ipynb)
 
 This notebook contains the full model evaluation workflow and preserved outputs for transparency.
+
+---
+
+[Return to main README](../README.md)
