@@ -35,12 +35,14 @@ df = df.drop(['track_name', 'artist(s)_name', 'artist_count', 'released_day', 'i
 # Instrumentalness is not helpful for modelling due to low variance
 df = df.drop(['instrumentalness_%'], axis=1).copy()
 
-if len(df) > 478:
-    df = df.drop(df.index[[478]]).reset_index(
-        drop=True)      # Remove row with erroneous data
+# Convert streams to numeric. Invalid values become NaN
+df['streams'] = pd.to_numeric(df['streams'], errors='coerce')
+# Remove rows containing invalid stream values
+df = df.dropna(subset=['streams']).reset_index(drop=True)
 
-# Log-normalise target variable
+# Keep original target before log transformation
 df['streams_raw'] = df['streams']
+# Log-normalise target variable
 df['streams'] = np.log(df['streams'])
 
 # Convert mode to numeric
@@ -50,7 +52,7 @@ df['mode'] = df['mode'].replace('Minor', 0)
 df['mode'] = df['mode'].astype(int)
 
 # Define features
-X = df.drop('streams', axis=1)
+X = df.drop(['streams', 'streams_raw'], axis=1)
 y = df['streams']
 
 # Features to be preprocessed
