@@ -173,10 +173,10 @@ spotify-popularity-prediction
 │   └── model.py
 ├── documentation/
 │   ├── visualisations/
-│   │   ├── abs_error_by_quantile.png
+│   │   ├── raw_abs_error_by_quantile.png
 │   │   ├── corr_heatmap.png
 │   │   ├── permut_feature_importance.png
-│   │   ├── predicted_vs_actual.png
+│   │   ├── predicted_vs_actual_raw.png
 │   │   ├── residuals_vs_predictions.png
 │   │   └── scatter_plot_matrix.png
 │   ├── acknowledgements.md
