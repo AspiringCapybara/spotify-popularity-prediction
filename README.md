@@ -48,16 +48,17 @@ All figures and results shown in this repository were generated using the origin
 
 - A Random Forest Regressor was trained on the "Most Streamed Spotify Songs of 2023" dataset from Kaggle.
 - Data were cleaned and exploratory data analysis performed.
-- Log-normalisation was performed on the target variable (stream count) to better model the heavy-tailed distribution and stabilise variance.
+- A log transformation was applied on the target variable (stream count) to better model the heavy-tailed distribution and stabilise variance.
 - Audio features and metadata were selected, encoded and scaled through a reproducible preprocessing pipeline.
 - The model's hyperparameters were tuned using `GridSearchCV`.
 
 ## 📊📈 Evaluation Strategy
 
 Model performance is not assessed using a single metric alone. On top of R2, this project highlights:
-- residual analysis across different ranges of popularity,
-- interpretation of prediction errors on a log scale,
-- and inspection of where the model consistently under-predicts or over-predicts stream counts.
+- residual analysis in log space,
+- raw-scale relative and absolute error across stream-count quartiles,
+- median absolute log error to compare typical multiplicative prediction error across popularity ranges,
+- and inspection of extreme over- and under-predictions.
 
 This approach reflects real-world data science practice, in which understanding *where* and *how* a model can fail often offers deeper insights than purely focusing on analysing headline metrics.
 
@@ -65,21 +66,21 @@ This approach reflects real-world data science practice, in which understanding 
 
 The following findings illustrate how the conclusion is reached from the data and evaluation results.
 
-- **Playlist exposure is the dominant driver of a song's streaming volume.**
+- **Playlist exposure is the dominant predictor of a song's streaming volume.**
 
-Permutation importance and ablation analysis show that removing the playlist-related feature causes a large drop in R2 and a sharp increase in error. This demonstrates that the exposure a song has gained dominates intrinsic audio characteristics and release timing when explaining a song's stream count.
+Permutation importance and ablation analysis show that removing the playlist-related feature causes a large drop in R2 and a sharp increase in error. This indicates that playlist exposure contributes substantially more to the model’s predictive performance than intrinsic audio characteristics or release timing.
 
-- **The model performs best for songs with mid-range stream counts.**
+- **Typical multiplicative prediction accuracy is broadly similar across popularity ranges.**
 
-Residual analysis and absolute error analysis by stream count quantiles show relatively low errors for moderately-popular songs, whereas model performance degrades for extreme outliers.
+Median absolute log error is relatively consistent across stream-count quartiles, suggesting that typical multiplicative prediction accuracy does not vary dramatically with popularity. However, raw absolute errors become much larger for highly streamed songs, while percentage-based relative error can become unstable for unusually low stream counts.
 
-- **Highly popular songs are systematically under-predicted.**
+- **The model shows upper-tail compression for some highly popular songs.**
 
-The predicted vs actual plot (log-log scale) illustrates upper-tail compression of the model's predictions, reflecting the influence of external factors (e.g., marketing, branding, artist popularity) that are not captured in the dataset.
+The predicted vs actual plot shows that some of the songs with highest stream counts are substantially under-predicted. This is consistent with the model having difficulty capturing extreme commercial success using the available features alone.
 
 - **Overall model performance is realistic for stream count prediction.**
 
-An R2 of about 0.55, together with reasonable MAE and RMSE, demonstrate that the model captured meaningful signals.
+The model achieved an R2 of about 0.56 on log-transformed stream counts. Together with MAE, RMSE and the residual analyses, this indicates that the model captures meaningful predictive signal while still exhibiting substantial errors for some extreme observations.
 
 ## 📝 Technical Model Report
 
@@ -101,7 +102,7 @@ Readers interested in the full modelling rationale and diagnostics are encourage
 
 - Incorporating external variables such as artist popularity
 - Comparing predictions across time periods to study changes over time
-- Displaying confidence intervals of models to users rather than point estimates of stream count alone
+- Displaying prediction intervals or uncertainty estimates to users rather than point estimates alone.
 - Evaluating alternative loss functions to reduce upper-tail compression in stream count predictions
 
 ## 🖥️ Application Architecture
@@ -266,4 +267,4 @@ Appendices are optional and not required to understand the core project.
 - [Practices and Techniques Demonstrated](documentation/practices.md) — Core data science and software engineering practices demonstrated in this project
 - [Model Development and Evaluation Report](documentation/model_report.md) —  Technical model report containing a structured summary of the modelling process, evaluation methodology and deployment architecture
 
----
+--- 
