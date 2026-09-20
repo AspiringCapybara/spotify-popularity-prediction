@@ -179,7 +179,6 @@ spotify-popularity-prediction
 │   │   ├── predicted_vs_actual_raw.png
 │   │   ├── residuals_vs_predictions.png
 │   │   └── scatter_plot_matrix.png
-│   ├── acknowledgements.md
 │   ├── model_report.md
 │   └── practices.md
 ├── web_app/
@@ -265,7 +264,6 @@ The following are used mainly in Jupyter Notebooks for exploratory data analysis
 Appendices are optional and not required to understand the core project.
 
 - [Practices and Techniques Demonstrated](documentation/practices.md) — Core data science and software engineering practices demonstrated in this project
-
-- [Acknowledgements](documentation/acknowledgements.md) — The help I obtained throughout this project and the external sources that I used
+- [Model Development and Evaluation Report](documentation/model_report.md) —  Technical model report containing a structured summary of the modelling process, evaluation methodology and deployment architecture
 
 ---
