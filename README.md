@@ -258,9 +258,14 @@ The following are used mainly in Jupyter Notebooks for exploratory data analysis
 
 - Kaggle dataset: *Most Streamed Spotify Songs 2023*
 
+## 📚 References
+
+- Music Pandit: [Understanding Musical Keys and Modes](https://www.musicpandit.com/resources/articles/key/)
+- Spot On Track: [What Do the Audio Features Mean?](https://help.spotontrack.com/article/what-do-the-audio-features-mean)
+
 ---
 
-## 📚 Appendices
+## 📖 Appendices
 
 Appendices are optional and not required to understand the core project.
 
