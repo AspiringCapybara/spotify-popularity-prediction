@@ -126,8 +126,8 @@ This project includes a Docker configuration to ensure that the web app runs con
 In the terminal, run:
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/your-username/spotify-popularity-prediction.git
+cd spotify-popularity-prediction
 ```
 
 ### 2. Build the Docker Image
