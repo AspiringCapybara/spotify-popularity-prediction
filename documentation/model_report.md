@@ -14,7 +14,7 @@ This document focuses strictly on modeling methodology and evaluation.
 
 ## 2. Data Preprocessing Pipeline
 
-All preprocessing was implemented using a unified `Scikit-learn` Pipeline to ensure consistency between training and inference.
+Feature preprocessing was implemented using a unified `Scikit-learn` Pipeline to ensure consistency between training and inference. Data cleaning and target preparation were performed before the pipeline was fit.
 
 ### Cleaning Steps
 
@@ -38,12 +38,12 @@ Features were grouped and processed as follows:
 
 ### Numerical Features
 
-These were scaled using `MinMaxScaler`.
+These selected numerical features were scaled using `MinMaxScaler`.
 
 - `bpm`
-- `speechiness_%`
-- `liveness_%`
-- `acousticness_%`
+- `speechiness_%_log`
+- `liveness_%_log`
+- `acousticness_%_log`
 - `danceability_%`
 - `valence_%`
 - `energy_%`
@@ -61,7 +61,7 @@ No processing was needed for these features.
 
 ### Custom Transformation
 
-A custom `LogFeatureTransformer` was implemented to apply log-normalisation to skewed percentage features within the pipeline.
+A custom `LogFeatureTransformer` was implemented to apply log transformations to selected skewed percentage features within the pipeline.
 
 ---
 
@@ -85,9 +85,9 @@ The following hyperparameters were selected using `GridSearchCV`:
 
 ## 5. Evaluation Methodology
 
-Dataset was split into 70% training and 30% testing. 
+The dataset was split into 70% training and 30% testing.
 
-All preprocessing steps were fit exclusively on the training set within the pipeline to prevent data leakage.
+Data-dependent preprocessing steps within the Scikit-learn pipeline were fit using the training data only, helping prevent leakage from the held-out test set.
 
 Evaluation metrics:
 
@@ -97,39 +97,46 @@ Evaluation metrics:
 
 Diagnostic analysis included:
 
-- Predicted vs actual (log scale)
-- Residual plots
-- Absolute error by stream count quantiles
+- Residual analysis in log space
+- Predicted vs actual raw stream counts displayed on log-log axes
+- Mean raw-scale relative error across stream-count quartiles
+- Median absolute log error across stream-count quartiles
+- Raw-scale absolute error across stream-count quartiles
+- Inspection of extreme prediction errors
 
 ---
 
 ## 6. Performance Summary
 
-[Predicted vs Actual (log-log scale)](visualisations/predicted_vs_actual.png)
+[Predicted vs Actual (raw scale)](visualisations/predicted_vs_actual_raw.png)
 
 Final test set performance:
 
-- R2 ≈ 0.55
-- MAE (log scale) ≈ 0.43
-- RMSE (log scale) ≈ 0.89
+- R2 ≈ 0.56
+- MAE (log scale) ≈ 0.41
+- RMSE (log scale) ≈ 0.88
 
-Performance is strongest in mid-range stream counts and degrades for extreme upper-tail stream counts.
+Median absolute log error is relatively similar across stream-count quartiles, suggesting that typical multiplicative prediction accuracy is broadly comparable across popularity ranges. However, raw absolute prediction errors become substantially larger for highly streamed songs, and isolated extreme prediction failures remain present.
 
-Given the absence of features capturing external factors (e.g., artist history, marketing strategies), an R2 of 0.55 indicates that structured audio features and playlist exposure alone explain over half the variance in log-transformed stream counts.
+An R2 of approximately 0.56 on the held-out test set indicates that the available audio features, release metadata and playlist exposure capture meaningful predictive signal in log-transformed stream counts, while leaving substantial variation unexplained.
 
 ---
 
 ## 7. Error Behaviour Across Popularity Levels
 
-[Absolute Error by Quantile](visualisations/abs_error_by_quantile.png)
+[Raw Absolute Error by Quantile](visualisations/raw_abs_error_by_quantile.png)
 
-Quantile-based analysis shows:
+Quantile-based analysis was performed using several complementary error measures.
 
-- Lower error variance for moderately popular songs
-- Systemic under-prediction in upper quantiles
-- Compression in predicted values at extreme stream counts
+Raw-scale mean relative error was found to be highly sensitive to an unusually low-stream observation with only 2762 actual streams. Because percentage-based errors divide by the actual value, this single extreme overprediction substantially inflated the mean relative error of the lowest-stream quartile.
 
-This suggests that extreme popularity is influenced by variables not captured in the dataset, resulting in prediction compression at the upper tail.
+The observation is unusually low for a dataset of popular Spotify songs and may represent a data anomaly. However, without independent evidence confirming that the value is erroneous, it was retained rather than removed solely because of its magnitude.
+
+Median absolute log error was therefore used as a complementary measure of typical prediction performance. This metric was relatively similar across the four popularity quartiles, suggesting that typical multiplicative error does not vary dramatically with popularity.
+
+In contrast, raw absolute error generally increases with stream count. Highly streamed songs therefore tend to exhibit much larger errors in absolute numbers of streams, even when their multiplicative errors are comparable to those of less-popular songs.
+
+The predicted vs actual plot in Section 6 also shows upper-tail compression for some of the most highly streamed songs, indicating difficulty in reproducing certain extreme outcomes using the available predictors alone.
 
 ---
 
@@ -143,15 +150,15 @@ Permutation feature importance indicates that:
 - Audio features provide incremental but smaller contributions
 - Removing playlist exposure feature substantially degrades R2
 
-The ablation experiment confirms that while metadata alone explains a meaningful portion of variance, exposure-related features overwhelmingly drive most predictive power. This indicates that song visibility on a platform is a stronger determinant of stream count than intrinsic audio characteristics and release timing.
+The ablation experiment confirms that, within this model, the remaining audio and release-timing features still explain a meaningful portion of variance, but playlist exposure contributes substantially more predictive power than the individual audio and release-timing features examined.
 
 ---
 
-## 9. Model Generalisation and Stability
+## 9. Reproducibility and Evaluation Stability
 
 - Random seed fixed for reproducibility
 - Pipeline includes preprocessing to prevent inconsistency between training and inference
-- Evaluation performed only on held-out test set 
+- Evaluation performed only on held-out test set
 
 ---
 
@@ -169,7 +176,7 @@ The Dockerised Flask application loads this artifact strictly for inference.
 
 - Dataset unavailable in repository due to licensing constraints
 - Cross-sectional dataset and model design prevents modelling stream growth over time
-- No marketing or external exposure data
+- No direct marketing, promotional-spend or artist-popularity variables beyond playlist exposure metadata
 - No historical features on artist performance
 - Model performance may not generalise to newly-emerging genres or platform shifts
 
